@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: busan
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: SPRING
+    password: SPRING
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+server:
+  port: 80
