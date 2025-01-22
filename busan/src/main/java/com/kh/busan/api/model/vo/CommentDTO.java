@@ -1,5 +1,8 @@
 package com.kh.busan.api.model.vo;
 
+import java.io.Serializable;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +16,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @Builder
-public class CommentDTO {
+public class CommentDTO implements Serializable {
 
 	private Long foodNo;
+	@NotBlank(message = "ID는 필수 입력값입니다.")
 	private String writer;
+	
 	private String content;
 }
