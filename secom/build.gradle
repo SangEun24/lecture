@@ -18,7 +18,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
+  
 repositories {
 	mavenCentral()
 }
@@ -28,6 +28,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3' // JWT토큰용 라이브러리
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	annotationProcessor 'org.projectlombok:lombok'
