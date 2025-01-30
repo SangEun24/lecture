@@ -1,11 +1,19 @@
 package com.kh.secom.member.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.kh.secom.auth.model.vo.CustomUserDetails;
 import com.kh.secom.exception.DuplicateUserException;
 import com.kh.secom.exception.InvalidParameterException;
+import com.kh.secom.exception.MissmatchPasswordException;
 import com.kh.secom.member.model.mapper.MemberMapper;
+import com.kh.secom.member.model.vo.ChangePasswordDTO;
 import com.kh.secom.member.model.vo.Member;
 import com.kh.secom.member.model.vo.MemberDTO;
 
@@ -40,5 +48,29 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.save(member);
 		log.info("회원 가입 성공!");
 	}
+
+	@Override
+	public void changePassword(ChangePasswordDTO changeEntity) {
+
+		// 비밀번호 바꿔주세요
+		// 제 현재 비밀번호는 currentPassword고요
+		// 요게 만약 맞다면 newPassword로 바꾸고 싶어요.
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
+		
+		if(!(passwordEncoder.matches(changeEntity.getCurrentPassword(), user.getPassword()))){
+			throw new MissmatchPasswordException("비밀번호 똑바로 써!!!");
+		}
+		String encodePassword = passwordEncoder.encode(changeEntity.getNewPassword());
+		
+		Map<String, String> changeRequest = new HashMap();
+		changeRequest.put("userNo", String.valueOf(user.getUserNo()));
+		changeRequest.put("password", encodePassword);
+		
+		memberMapper.changePassword(changeRequest);
+		
+	}
+	
+	
 
 }

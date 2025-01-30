@@ -3,6 +3,7 @@ package com.kh.secom.member.controller;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,7 +64,14 @@ public class MemberController {
 	@PutMapping
 	public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO changeEntity) {
 		
-		log.info("{}", changeEntity);
+		//log.info("{}", changeEntity);
+		memberService.changePassword(changeEntity);
+		return ResponseEntity.ok("업데이트에 성공했습니다!");
+	}
+	
+	@DeleteMapping
+	public ResponseEntity<?> deleteByPassword(){
+		
 		return null;
 	}
 
