@@ -55,22 +55,39 @@ public class MemberServiceImpl implements MemberService {
 		// 비밀번호 바꿔주세요
 		// 제 현재 비밀번호는 currentPassword고요
 		// 요게 만약 맞다면 newPassword로 바꾸고 싶어요.
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
+
 		
-		if(!(passwordEncoder.matches(changeEntity.getCurrentPassword(), user.getPassword()))){
-			throw new MissmatchPasswordException("비밀번호 똑바로 써!!!");
-		}
+		Long userNo = passwordMatchs(changeEntity.getCurrentPassword());
+		
 		String encodePassword = passwordEncoder.encode(changeEntity.getNewPassword());
-		
+
 		Map<String, String> changeRequest = new HashMap();
-		changeRequest.put("userNo", String.valueOf(user.getUserNo()));
+		changeRequest.put("userNo", String.valueOf(userNo));
 		changeRequest.put("password", encodePassword);
-		
+
 		memberMapper.changePassword(changeRequest);
-		
+
 	}
-	
-	
+
+	@Override
+	public void deleteByPassword(Map<String, String> password) {
+
+		// 사용자가 입력한 비밀번호와 DB에 저장되어있는 비밀번호가 서로 짝짜꿍해서 된게 맞는지
+
+		Long userNo = passwordMatchs(password.get("password"));
+		
+		memberMapper.deleteByPassword(userNo);
+	}
+
+	private Long passwordMatchs(String password) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+
+		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+			throw new MissmatchPasswordException("비밀번호 똑바로 쓰세요!!");
+		}
+		return userDetails.getUserNo();
+	}
 
 }

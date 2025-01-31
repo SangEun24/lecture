@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BusanController {
 	
-	private final BusanService service; 
+	private final BusanService service;
 	
 	@GetMapping("/busan")
 	public ResponseEntity<String> getBusanFood(@RequestParam(name="page")int page) throws URISyntaxException{

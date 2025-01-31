@@ -20,4 +20,5 @@ public class Member {
 	private String userPwd;
 	private String role;
 	
+	
 }

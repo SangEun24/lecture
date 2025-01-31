@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BusanServiceImpl implements BusanService {
 
-	private final CommentMapper mapper; 
+	private final CommentMapper mapper;  
 	
 	@Override
 	public String getBusan(int page){

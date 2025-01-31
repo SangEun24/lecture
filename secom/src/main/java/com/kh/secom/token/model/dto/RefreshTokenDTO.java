@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
-@Builder
+@Builder 
 @NoArgsConstructor
 public class RefreshTokenDTO {
 

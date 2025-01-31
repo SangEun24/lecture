@@ -2,6 +2,7 @@ package com.kh.secom.member.model.mapper;
 
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
@@ -18,5 +19,8 @@ public interface MemberMapper {
 
 	@Update("UPDATE TB_MEMBER SET USER_PWD=#{password} WHERE USER_NO=#{userNo}")
 	void changePassword(Map<String, String> changeRequest);
+
+	@Delete("DELETE FROM TB_MEMBER WHERE USER_NO = #{userNo}")
+	void deleteByPassword(Long userNo);
 
 }

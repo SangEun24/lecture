@@ -15,6 +15,7 @@ import com.kh.secom.member.model.service.MemberService;
 import com.kh.secom.member.model.vo.ChangePasswordDTO;
 import com.kh.secom.member.model.vo.LoginResponse;
 import com.kh.secom.member.model.vo.MemberDTO;
+import com.kh.secom.token.model.service.TokenService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final AuthenticationService authService;
+	private final TokenService tokenService; 
 
 	// 새롭게 데이터를 만들어내는 요청(INSERT) == POST
 	@PostMapping
@@ -70,9 +72,20 @@ public class MemberController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<?> deleteByPassword(){
+	public ResponseEntity<?> deleteByPassword(@RequestBody Map<String, String> password){
 		
-		return null;
+		memberService.deleteByPassword(password);
+		
+		return ResponseEntity.ok("OK~~");
+	}
+	
+	@PostMapping("/refresh")
+	public ResponseEntity<Map> refresh(@RequestBody Map<String, String> tokens){
+		String refreshToken = tokens.get("refreshToken");
+		
+		Map<String, String> newTokens = tokenService.refreshTokens(refreshToken);
+		
+		return ResponseEntity.ok(newTokens);
 	}
 
 }

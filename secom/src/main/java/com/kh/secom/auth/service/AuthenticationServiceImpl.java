@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		 * 사용자가 입력한 username과 password를 검증하는 용도로 사용하는 클래스 주로, SpringSecurity에서 인증을 시도할 때
 		 * 사용함
 		 * 
-		 * 
+		 *  
 		 */
 
 		CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();

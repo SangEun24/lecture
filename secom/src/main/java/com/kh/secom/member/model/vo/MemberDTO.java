@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class MemberDTO {
-	private Long userNo;
+	private Long userNo; 
 
 	@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디 값은 영어/숫자만 사용할 수 있습니다.")
 	@Size(min = 6, max = 15, message = "아이디 값은 6글자 이상 15글자 이하만 사용할 수 있습니다.")

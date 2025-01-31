@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-@Data
+@Data 
 @AllArgsConstructor
 @Builder
 @ToString
