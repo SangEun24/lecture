@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfigure {
-	
+
 	private final JwtFilter filter;
 
 	@Bean // Bean애노테이션을 이용해서 빈으로 등록하는 경우 동일한 이름의 메소드가 존재해서는 안됨!
@@ -43,19 +43,23 @@ public class SecurityConfigure {
 				.csrf(AbstractHttpConfigurer::disable) // csrf 비활성화
 				.cors(AbstractHttpConfigurer::disable) // 얘는 일단은 꺼놓고 나중에 nginx붙이기
 				.authorizeHttpRequests(requests -> {
-					requests.requestMatchers("/members", "/members/login").permitAll(); // 인증없이 이용할 수 있음
+					requests.requestMatchers("/members", "/members/login", "/uploads/**").permitAll(); // 인증없이 이용할 수 있음
 					requests.requestMatchers(HttpMethod.PUT, "/members").authenticated(); // 인증해야 이용할 수 있음
 					requests.requestMatchers("/admin/**").hasRole("ADMIN"); // ADMIN권한만 이용할 수 있음
 					requests.requestMatchers(HttpMethod.DELETE, "/members").authenticated();
 					requests.requestMatchers(HttpMethod.POST, "/members/refresh").authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/boards").authenticated();
+					requests.requestMatchers(HttpMethod.GET, "/boards/**", "/comments/**").permitAll();
+					requests.requestMatchers(HttpMethod.PUT, "/boards/**").authenticated();
+					requests.requestMatchers(HttpMethod.DELETE, "/boards/**").authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/comments").authenticated();
 				})
 				/*
 				 * sessionManagement : 세션관리에 대한 설정을 지정할 수 있음 sessionCreationPolicy : 정책을 설정
 				 */
-				.sessionManagement(sessionManagement -> 
-						           sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-				.build();
+				.sessionManagement(
+						sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
 	@Bean

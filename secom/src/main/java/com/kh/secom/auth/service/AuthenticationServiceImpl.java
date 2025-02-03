@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.kh.secom.auth.model.vo.CustomUserDetails;
@@ -54,6 +55,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		return tokens;
 
+	}
+	
+	@Override
+	public CustomUserDetails getAuthenticatedUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+
+		return user;
+	}
+
+	@Override
+	public void validWriter(String writer, String username) {
+		if (writer != null && !writer.equals(username)) {
+			throw new RuntimeException("요청한 사용자와 작성자가 일치하지 않습니다.");
+		}
 	}
 
 }

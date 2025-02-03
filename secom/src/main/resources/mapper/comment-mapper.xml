@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.kh.secom.comment.model.mapper.CommentMapper">
+	 <insert id="insertComment">
+	 	INSERT
+	 	  INTO
+	 	       TB_COMMENT
+	 	VALUES
+	           (
+				SEQ_CNO.NEXTVAL
+			  , #{refBoardNo}
+			  , #{commentWriter}
+			  , #{content}
+			  , SYSDATE
+			   )
+	 </insert>
+	 <select id="findByBoardNo" parameterType="long" resultType="com.kh.secom.comment.model.dto.Comment">
+	 	SELECT
+	 	       COMMENT_NO commentNo
+	 	     , REF_BOARD_NO refBoardNo
+	 	     , USER_ID commentWriter
+	 	     , CONTENT content
+	 	     , CREATE_DATE createDate
+	 	  FROM
+	 	       TB_COMMENT
+	 	  JOIN
+	 	       TB_MEMBER ON(REF_USER_NO = USER_NO)
+	 	 WHERE
+	 	       REF_BOARD_NO = #{boardNo}
+	 	 ORDER
+	 	    BY
+	 	       CREATE_DATE DESC
+	 </select>
+	 
+
+</mapper>
